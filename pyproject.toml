@@ -48,8 +48,8 @@ dev = [
     "cffi~=1.17; platform_python_implementation != 'PyPy' and python_version < '3.14'",
     "cffi>=2.0.0b; platform_python_implementation != 'PyPy' and python_version >= '3.14'",
     "hypothesis==6.111.0",
-    "pytest>=8.4.1",
-    "pytest-xdist>=3.8.0",
+    "pytest>=8.3.5",
+    "pytest-xdist>=3.6.1",
 ]
 
 [tool.pytest.ini_options]
