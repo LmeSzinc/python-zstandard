@@ -68,6 +68,8 @@ jobs:
       CIBW_BUILD: ${{ matrix.py }}-${{ matrix.abi }}_${{ matrix.arch }}
       CIBW_BUILD_FRONTEND: 'build[uv]'
       CIBW_BUILD_VERBOSITY: '1'
+      # Strip debug symbols from all ELF files so wheels stay small.
+      CIBW_REPAIR_WHEEL_COMMAND: 'auditwheel repair --strip -w {dest_dir} {wheel}'
       CIBW_MANYLINUX_AARCH64_IMAGE: quay.io/pypa/${{ matrix.image }}_aarch64:latest
       CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/${{ matrix.image }}_x86_64:latest
       CIBW_MUSLLINUX_AARCH64_IMAGE: quay.io/pypa/${{ matrix.image }}_aarch64:latest

@@ -87,6 +87,10 @@ def get_c_extension(
 
         if compiler_type == "unix":
             extra_args.append("-fvisibility=hidden")
+            # Don't generate debug info. zstd/zstd.c is a 2.2 MB unity
+            # build: DWARF debug sections can bloat the .so to 5x its
+            # code size, producing unnecessarily large wheels.
+            extra_args.append("-g0")
 
     if not system_zstd and support_legacy:
         extra_args.append("-DZSTD_LEGACY_SUPPORT=1")
