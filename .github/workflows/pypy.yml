@@ -1,8 +1,7 @@
 on:
+  workflow_dispatch:
   push:
   pull_request:
-  schedule:
-    - cron: '30 13 * * *'
 permissions: { }
 jobs:
   wheel:
