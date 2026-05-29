@@ -39,7 +39,7 @@ requires = [
     "cffi~=1.17; platform_python_implementation != 'PyPy' and python_version < '3.14'",
     "cffi>=2.0.0b; platform_python_implementation != 'PyPy' and python_version >= '3.14'",
     "packaging",
-    "setuptools>=77.0.0",
+    "setuptools>=68.0.0",
 ]
 build-backend = "setuptools.build_meta"
 
