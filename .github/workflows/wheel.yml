@@ -153,7 +153,6 @@ jobs:
           - 'cp314'
           - 'cp314t'
         arch:
-          - 'win32'
           - 'win_amd64'
           - 'win_arm64'
         exclude:

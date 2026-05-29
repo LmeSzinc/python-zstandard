@@ -50,6 +50,8 @@ jobs:
             arch: 'arm64'
             py: '3.9'
           - os: 'windows-2022'
+            arch: 'x86'
+          - os: 'windows-2022'
             arch: 'arm64'
           - os: 'windows-11-arm'
             arch: 'x86'
