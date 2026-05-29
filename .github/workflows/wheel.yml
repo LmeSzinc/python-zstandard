@@ -21,9 +21,6 @@ jobs:
           - 'cp314t'
         arch:
           - 'aarch64'
-          - 'i686'
-          - 'ppc64le'
-          - 's390x'
           - 'x86_64'
         abi:
           - 'manylinux'
@@ -43,13 +40,6 @@ jobs:
             image: 'manylinux2014'
           - abi: 'musllinux'
             image: 'manylinux_2_28'
-          # Remove some older ABIs that don't need to exist.
-          - arch: 'i686'
-            image: 'musllinux_1_1'
-          - arch: 'ppc64le'
-            image: 'musllinux_1_1'
-          - arch: 's390x'
-            image: 'musllinux_1_1'
           # Switch to manylinux_2_28 on 3.14+.
           - py: 'cp38'
             image: 'manylinux_2_28'
@@ -76,18 +66,11 @@ jobs:
     env:
       CIBW_ARCHS: ${{ matrix.arch }}
       CIBW_BUILD: ${{ matrix.py }}-${{ matrix.abi }}_${{ matrix.arch }}
-      # uv not present on musllinux cross-compiled images.
-      CIBW_BUILD_FRONTEND: ${{ (matrix.abi == 'musllinux' && (matrix.arch == 'ppc64le' || matrix.arch == 's390x')) && 'build' || 'build[uv]' }}
+      CIBW_BUILD_FRONTEND: 'build[uv]'
       CIBW_BUILD_VERBOSITY: '1'
       CIBW_MANYLINUX_AARCH64_IMAGE: quay.io/pypa/${{ matrix.image }}_aarch64:latest
-      CIBW_MANYLINUX_I686_IMAGE: quay.io/pypa/${{ matrix.image }}_i686:latest
-      CIBW_MANYLINUX_PPC64LE_IMAGE: quay.io/pypa/${{ matrix.image }}_ppc64le:latest
-      CIBW_MANYLINUX_S390X_IMAGE: quay.io/pypa/${{ matrix.image }}_s390x:latest
       CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/${{ matrix.image }}_x86_64:latest
       CIBW_MUSLLINUX_AARCH64_IMAGE: quay.io/pypa/${{ matrix.image }}_aarch64:latest
-      CIBW_MUSLLINUX_I686_IMAGE: quay.io/pypa/${{ matrix.image }}_i686:latest
-      CIBW_MUSLLINUX_PPC64LE_IMAGE: quay.io/pypa/${{ matrix.image }}_ppc64le:latest
-      CIBW_MUSLLINUX_S390X_IMAGE: quay.io/pypa/${{ matrix.image }}_s390x:latest
       CIBW_MUSLLINUX_X86_64_IMAGE: quay.io/pypa/${{ matrix.image }}_x86_64:latest
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -98,10 +81,6 @@ jobs:
         uses: astral-sh/setup-uv@d9e0f98d3fc6adb07d1e3d37f3043649ddad06a1 # v6.5.0
         with:
           version: "0.8.11"
-
-      - name: Set up QEMU
-        if: ${{ matrix.arch == 'ppc64le' || matrix.arch == 's390x' }}
-        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
 
       - name: Build wheels
         run: |
