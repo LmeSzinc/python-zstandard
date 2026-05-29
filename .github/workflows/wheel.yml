@@ -30,6 +30,9 @@ jobs:
           - 'manylinux_2_28'
           - 'musllinux_1_1'
           - 'musllinux_1_2'
+        include:
+          - py: 'cp38'
+            image_tag: '2026.05.02-2'
         exclude:
           # Cancel out abi - image mismatch.
           - abi: 'manylinux'
@@ -70,10 +73,10 @@ jobs:
       CIBW_BUILD_VERBOSITY: '1'
       # Strip debug symbols from all ELF files so wheels stay small.
       CIBW_REPAIR_WHEEL_COMMAND: 'auditwheel repair --strip -w {dest_dir} {wheel}'
-      CIBW_MANYLINUX_AARCH64_IMAGE: quay.io/pypa/${{ matrix.image }}_aarch64:latest
-      CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/${{ matrix.image }}_x86_64:latest
-      CIBW_MUSLLINUX_AARCH64_IMAGE: quay.io/pypa/${{ matrix.image }}_aarch64:latest
-      CIBW_MUSLLINUX_X86_64_IMAGE: quay.io/pypa/${{ matrix.image }}_x86_64:latest
+      CIBW_MANYLINUX_AARCH64_IMAGE: quay.io/pypa/${{ matrix.image }}_aarch64:${{ matrix.image_tag || 'latest' }}
+      CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/${{ matrix.image }}_x86_64:${{ matrix.image_tag || 'latest' }}
+      CIBW_MUSLLINUX_AARCH64_IMAGE: quay.io/pypa/${{ matrix.image }}_aarch64:${{ matrix.image_tag || 'latest' }}
+      CIBW_MUSLLINUX_X86_64_IMAGE: quay.io/pypa/${{ matrix.image }}_x86_64:${{ matrix.image_tag || 'latest' }}
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
